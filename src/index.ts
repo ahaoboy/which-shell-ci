@@ -157,7 +157,9 @@ function guessShell(shell: string): ShellVersion | undefined {
 
 export function whichShell(): ShellVersion | undefined {
   let pid = process.pid
-  let name = ''
+  const nameFn = process.platform === 'win32' ? getNameWindows : getNameUnix
+  let name = nameFn(pid)
+  console.log('name', name)
   while (pid) {
     const info = getInfo(pid)
     if (!info) {
